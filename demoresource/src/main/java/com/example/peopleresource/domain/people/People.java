@@ -1,4 +1,4 @@
-package com.example.demoresource;
+package com.example.peopleresource.domain.people;
 
 public class People {
 
