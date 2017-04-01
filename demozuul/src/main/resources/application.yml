@@ -17,11 +17,21 @@ spring:
 security:    
     basic:
       enabled: false 
+    user:
+     password: none  
     oauth2:
       resource:
+        filter-order: 3  
         jwt:
-          key-value: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnGp/Q5lh0P8nPL21oMMrt2RrkT9AW5jgYwLfSUnJVc9G6uR3cXRRDCjHqWU5WYwivcF180A6CWp/ireQFFBNowgc5XaA0kPpzEtgsA5YsNX7iSnUibB004iBTfU9hZ2Rbsc8cWqynT0RyN4TP1RYVSeVKvMQk4GT1r7JCEC+TNu1ELmbNwMQyzKjsfBXyIOCFU/E94ktvsTZUHF4Oq44DBylCDsS1k7/sfZC2G5EU7Oz0mhG8+Uz6MSEQHtoIi6mc8u64Rwi3Z3tscuWG2ShtsUFuNSAFNkY7LkLn+/hxLCu2bNISMaESa8dG22CIMuIeRLVcAmEWEWH5EEforTg+QIDAQAB 
+          key-value: |
+            -----BEGIN PUBLIC KEY-----
+            MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDNQZKqTlO/+2b4ZdhqGJzGBDlt
+            b5PZmBz1ALN2YLvt341pH6i5mO1V9cX5Ty1LM70fKfnIoYUP4KCE33dPnC7LkUwE
+            /myh1zM6m8cbL5cYFPyP099thbVxzJkjHWqywvQih/qOOjliomKbM9pxG8Z1dB26
+            hL9dSAZuA8xExjlPmQIDAQAB
+            -----END PUBLIC KEY----- 
         id: openid
+        preferTokenInfo: true
 zuul:
   routes:
     authenticationservice:
@@ -30,7 +40,7 @@ zuul:
       sensitive-headers: 
     demoresource:
       path: /peoples/**
-      serviceId: DEMORESOURCE
+      serviceId: PEOPLERESOURCE
       sensitive-headers: 
 logging:
   level.org.springframework.security: DEBUG

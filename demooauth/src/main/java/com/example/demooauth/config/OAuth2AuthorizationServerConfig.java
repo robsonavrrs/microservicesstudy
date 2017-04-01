@@ -62,8 +62,9 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory().withClient("acme").secret("acmesecret")
-				.authorizedGrantTypes("refresh_token", "password").scopes("openid");
+		clients.inMemory().withClient("acme").secret("acmesecret").autoApprove(true)
+				.authorizedGrantTypes("refresh_token", "password")
+                        .scopes("openid","peopleresource");
 	}
 	
 	
