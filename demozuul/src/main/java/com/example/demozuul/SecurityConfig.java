@@ -17,6 +17,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
@@ -32,19 +35,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String CSRF_COOKIE_NAME = "XSRF-TOKEN";
     private static final String CSRF_HEADER_NAME = "X-XSRF-TOKEN";
 
-    @Bean
-    @Primary
-    public OAuth2ClientContextFilter dynamicOauth2ClientContextFilter() {
-        return new DynamicOauth2ClientContextFilter();
-    }
+
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/auth/**", "/login").permitAll().anyRequest().authenticated()
             .and()
-            .csrf().requireCsrfProtectionMatcher(csrfRequestMatcher()).csrfTokenRepository(csrfTokenRepository())
-            .and()
-            .addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
+            .csrf().disable()
+            
+            //.csrf().requireCsrfProtectionMatcher(csrfRequestMatcher()).csrfTokenRepository(csrfTokenRepository())
+            //.and()
+            //.addFilterAfter(csrfHeaderFilter(), CsrfFilter.class)
             .logout().permitAll()
             .logoutSuccessUrl("/");
     }
@@ -94,5 +95,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
         repository.setHeaderName(CSRF_HEADER_NAME);
         return repository;
+    }
+    
+	@Bean
+	public TokenStore tokenStore() {
+		return new JwtTokenStore(accessTokenConverter());
+	}
+
+	
+    @Bean
+    public JwtAccessTokenConverter accessTokenConverter() {
+        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        converter.setSigningKey(privateKey);
+        converter.setVerifierKey(publicKey);
+        return converter;
     }
 }

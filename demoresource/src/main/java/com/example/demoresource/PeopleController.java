@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path="/peoples")
 public class PeopleController {
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET, produces = "application/json")
 	public List<People> getPeoples(){
 		People people = new People();
 		people.setNome("teste People");
