@@ -37,5 +37,4 @@ public class PeopleResource {
 	public People postPeoples(@RequestBody People newPeople){
 		return peopleService.createPeople(newPeople);
 	}
-
 }

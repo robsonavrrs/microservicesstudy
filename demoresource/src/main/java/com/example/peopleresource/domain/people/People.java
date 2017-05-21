@@ -6,6 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -13,14 +17,14 @@ import lombok.Setter;
 
 @Entity
 @Table(name="PEOPLE")
-@Builder
 public class People {
 
 	
 	public People(){
 		
 	}
-	
+
+	@Builder
 	public People(Long id, String nome){
 		this.id = id;
 		this.nome = nome;
@@ -39,5 +43,4 @@ public class People {
 	@Setter
 	private String nome;
 
-	
 }
